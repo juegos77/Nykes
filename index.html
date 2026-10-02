@@ -83,40 +83,11 @@ canvas#c{position:absolute;inset:0;touch-action:none;display:block}
   <p class="sub">Come pelotitas y alarga tu cola. Sobrevive <b>2 minutos</b> para asegurar tus puntos.</p>
 </div>
 <div class="errbox" id="ERR"></div>
-
-<!-- FIREBASE SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <script>
-// ===== FIREBASE =====
-var fdb = null;
-try {
-  firebase.initializeApp({
-    apiKey: "AIzaSyBzCM9203LaHQt54zZCHtEo_AzRvPLAwkM",
-    authDomain: "gusano-a498b.firebaseapp.com",
-    databaseURL: "https://gusano-a498b-default-rtdb.firebaseio.com",
-    projectId: "gusano-a498b",
-    storageBucket: "gusano-a498b.firebasestorage.app",
-    messagingSenderId: "373767819506",
-    appId: "1:373767819506:web:f08d23df4ca5fac475c06b"
-  });
-  fdb = firebase.database();
-  console.log("🔥 Firebase OK");
-} catch(e) {
-  console.error("❌ Firebase error:", e);
-}
-</script>
-
-<script>
-window.addEventListener('load', function(){
+window.addEventListener('load',function(){
 "use strict";
-
-window.addEventListener('error', function(ev){
-  var b = document.getElementById('ERR');
-  if (b) { b.style.display='block'; b.textContent = '⚠️ ' + ev.message + '\n' + (ev.filename||'') + ':' + (ev.lineno||''); }
-});
-
-try {
+window.addEventListener('error',function(ev){var b=document.getElementById('ERR');if(b){b.style.display='block';b.textContent='⚠️ '+ev.message+'\n'+(ev.filename||'')+':'+(ev.lineno||'');}});
+try{
 var c=document.getElementById('c'),x=c.getContext('2d',{alpha:false});
 var $=function(id){return document.getElementById(id);};
 var elS=$('S'),elT=$('T'),elQ=$('Q'),elB=$('B'),elR=$('R'),elO=$('O'),elG=$('G'),elN=$('N'),elM=$('M'),elST=$('ST'),elK=$('K'),elF=$('F'),elAV=$('AV'),elPV=$('PV'),elPAL=$('PAL'),elRB=$('RB'),elMD=$('MD'),elSL=$('SL'),elOPTS=$('OPTS'),elCL=$('CL'),elTM=$('TM'),elPP=$('PP');
@@ -137,7 +108,7 @@ function sh(t){elM.textContent=t;elM.classList.add('show');clearTimeout(elM._t);
 function br(){elB.style.width=Math.min(100,(tp+(P?P.score:0))/1000*100)+'%';elT.textContent=tp+(P?P.score:0);}
 function randName(){return NAMES[~~(Math.random()*NAMES.length)];}
 function mk(o){var w={name:o.name||randName(),color:o.color||C[~~(Math.random()*C.length)],x:(o.x!=null?o.x:rn(100,WD-100)),y:(o.y!=null?o.y:rn(100,WD-100)),angle:(o.angle!=null?o.angle:rn(0,Math.PI*2)),tA:0,bo:false,score:0,alive:true,isP:!!o.isP,ai:{t:0,target:null},segs:[]};w.tA=w.angle;for(var i=0;i<SL;i++)w.segs.push({x:w.x-Math.cos(w.angle)*i*SS,y:w.y-Math.sin(w.angle)*i*SS});return w;}
-function uL(w){var t=Math.min(SL+w.score,MX);while(w.segs.length<t){var l=w.segs[w.segs.length-1],p=w.segs[w.segs.length-2]||{x:l.x+Math.cos(w.angle)*SS,y:l.y+Math.sin(w.angle)*SS};var dx=l.x-p.x,dy=l.y-p.y,d=Math.hypot(dx,dy)||1;dx/=d;dy/=d;w.segs.push({x:l.x+dx*SS,y:l.y+dy*SS});}}
+  function uL(w){var t=Math.min(SL+w.score,MX);while(w.segs.length<t){var l=w.segs[w.segs.length-1],p=w.segs[w.segs.length-2]||{x:l.x+Math.cos(w.angle)*SS,y:l.y+Math.sin(w.angle)*SS};var dx=l.x-p.x,dy=l.y-p.y,d=Math.hypot(dx,dy)||1;dx/=d;dy/=d;w.segs.push({x:l.x+dx*SS,y:l.y+dy*SS});}}
 function spd(w){var b=SP+w.score*SG;return w.bo?b*2:b;}
 function mv(w,dt){var df=w.tA-w.angle;while(df>Math.PI)df-=Math.PI*2;while(df<-Math.PI)df+=Math.PI*2;var tR=TR2*(1-Math.min(w.segs.length/600,0.4)*0.6);w.angle+=cl(df,-tR*dt,tR*dt);var sp=spd(w);w.x+=Math.cos(w.angle)*sp*dt;w.y+=Math.sin(w.angle)*sp*dt;if(w.x<R0)w.x=R0;if(w.x>WD-R0)w.x=WD-R0;if(w.y<R0)w.y=R0;if(w.y>WD-R0)w.y=WD-R0;var h=w.segs[0];h.x=w.x;h.y=w.y;var s=w.segs;for(var i=1;i<s.length;i++){var p=s[i-1],u=s[i],dx=u.x-p.x,dy=u.y-p.y,d=Math.hypot(dx,dy)||.001;u.x=p.x+dx/d*SS;u.y=p.y+dy/d*SS;}}
 function kl(w,k){if(!w.alive)return;w.alive=false;if(k&&k.alive){k.score+=w.score;uL(k);}var dp=Math.min(60,8+Math.floor(w.score/3));for(var i=0;i<dp;i++){var s=w.segs[~~(Math.random()*w.segs.length)];fs.push({x:s.x+rn(-8,8),y:s.y+rn(-8,8),color:w.color,r:FR});}if(w.isP){al=false;end(k);}else{setTimeout(function(){if(!al)return;var i=ws.indexOf(w);if(i>=0)ws[i]=mk({});},1200);}}
@@ -161,10 +132,9 @@ function rk(){rT++;if(rT%30!==0)return;var s=ws.filter(function(w){return w.aliv
 function lp(t){var e=t-lt;if(e<15){requestAnimationFrame(lp);return;}var dt=Math.min(.05,e/1000);lt=t;fA+=e;fC++;fT+=e;if(fT>=500){elF.textContent=Math.round(1000/(fA/fC))+' FPS';fA=0;fC=0;fT=0;}
 if(al){if(P&&P.alive){inp();mv(P,dt);ea(P);if(P.score!==ms){ms=P.score;elS.textContent=ms;br();elQ.textContent=P.segs.length;}}for(var i=0;i<ws.length;i++){var w=ws[i];if(!w.isP&&w.alive){ai(w,dt);mv(w,dt);ea(w);}}co();if(P){cm.x+=(P.x-cm.x)*CM;cm.y+=(P.y-cm.y)*CM;cm.z+=(tZ()-cm.z)*.06;}}
 CX=W/2;CY=H/2;rn2();rk();requestAnimationFrame(lp);}
-// AVATAR
 var px=elPV.getContext('2d'),skin='#4ade80';
 try{var s0=localStorage.getItem('gskin');if(s0&&C.indexOf(s0)>=0)skin=s0;}catch(e){}
-C.forEach(function(col){var d=document.createElement('div');d.className='swatch'+(col===skin?' sel':'');d.style.background=col;d.onclick=function(){skin=col;localStorage.setItem('gskin',col);Array.prototype.forEach.call(elPAL.children,function(ch){ch.classList.remove('sel');});d.classList.add('sel');if(userRef)userRef.update({skin:skin});};elPAL.appendChild(d);});
+C.forEach(function(col){var d=document.createElement('div');d.className='swatch'+(col===skin?' sel':'');d.style.background=col;d.onclick=function(){skin=col;localStorage.setItem('gskin',col);Array.prototype.forEach.call(elPAL.children,function(ch){ch.classList.remove('sel');});d.classList.add('sel');};elPAL.appendChild(d);});
 elAV.onclick=function(){elPAL.classList.toggle('show');};
 var pvT=0;
 function drawPreview(){var w=elPV.width,h=elPV.height;px.clearRect(0,0,w,h);var segs=12,RR=14,pts=[],totalH=110,startY=h/2+totalH/2-5;for(var i=0;i<segs;i++){var t=i/(segs-1);pts.push({x:w/2+Math.sin(t*Math.PI*1.5+pvT*.05)*8,y:startY-t*totalH});}
@@ -175,39 +145,17 @@ px.fillStyle='#fff';px.beginPath();px.arc(hx-6,hy-4,5,0,6.2832);px.fill();px.beg
 drawPreview();
 function pvLoop(){if(!elO.classList.contains('hide')){pvT++;drawPreview();}requestAnimationFrame(pvLoop);}
 pvLoop();
-
-// ===== FIREBASE: PRESENCIA =====
-var USER_ID='u_'+Math.random().toString(36).slice(2,10);
-var nomUser=localStorage.getItem('gnombre')||'Anónimo';
-var userRef = fdb ? fdb.ref('usuarios/'+USER_ID) : null;
-
-function registrarPresencia(estado){
-  if(!userRef){console.warn("Sin userRef");return;}
-  var data={nombre:nomUser,skin:skin,estado:estado,conectado:true,ultimaVez:Date.now()};
-  if(estado==='jugando') data.sesionInicio=Date.now();
-  userRef.set(data).then(function(){console.log("✅ Presencia:",estado);}).catch(function(e){console.error("❌ set:",e);});
-  userRef.onDisconnect().update({conectado:false});
-}
-if(userRef){
-  setInterval(function(){userRef.update({ultimaVez:Date.now(),conectado:true});},15000);
-  userRef.child('baneado').on('value',function(s){if(s.val()===true){alert('🚫 Has sido baneado.');location.reload();}});
-  registrarPresencia('menu');
-}
-
-// ===== RETIRO =====
-var RETIROS=[{p:1000,d:1},{p:2000,d:2},{p:5000,d:5},{p:10000,d:10}],TIEMPO_MIN=120000,tInicio=0,timerRAF=null,retirosActivos=true;
-if(fdb) fdb.ref('config/retirosActivos').on('value',function(s){retirosActivos=(s.val()!==false);});
+var RETIROS=[{p:1000,d:1},{p:2000,d:2},{p:5000,d:5},{p:10000,d:10}],TIEMPO_MIN=120000,tInicio=0,timerRAF=null;
 try{var pp0=localStorage.getItem('gpaypal');if(pp0)elPP.value=pp0;}catch(e){}
 elPP.addEventListener('input',function(){localStorage.setItem('gpaypal',elPP.value.trim());});
-function renderRetiros(){elSL.textContent=tp;elOPTS.innerHTML='';RETIROS.forEach(function(r){var b=document.createElement('button');b.className='opt'+((tp<r.p||!retirosActivos)?' dis':'');b.innerHTML='$'+r.d+'<small>'+r.p+' pts</small>';b.onclick=function(){if(tp<r.p||!retirosActivos)return;var correo=elPP.value.trim();if(!correo||correo.indexOf('@')<0){alert('⚠️ Escribe tu correo PayPal antes de retirar.');elPP.focus();return;}tp-=r.p;localStorage.setItem('gt',tp);elT.textContent=tp;br();elSL.textContent=tp;if(fdb){fdb.ref('retiros').push({usuarioId:USER_ID,nombre:nomUser,correo:correo,monto:r.d,puntos:r.p,estado:'pendiente',fecha:Date.now()}).then(function(){console.log("✅ Retiro enviado");}).catch(function(e){console.error("❌ Retiro:",e);});}sh('✅ Solicitud de $'+r.d+' enviada a '+correo);renderRetiros();};elOPTS.appendChild(b);});}
+function renderRetiros(){elSL.textContent=tp;elOPTS.innerHTML='';RETIROS.forEach(function(r){var b=document.createElement('button');b.className='opt'+(tp<r.p?' dis':'');b.innerHTML='$'+r.d+'<small>'+r.p+' pts</small>';b.onclick=function(){if(tp<r.p)return;var correo=elPP.value.trim();if(!correo||correo.indexOf('@')<0){alert('⚠️ Escribe tu correo PayPal antes de retirar.');elPP.focus();return;}tp-=r.p;localStorage.setItem('gt',tp);elT.textContent=tp;br();elSL.textContent=tp;sh('✅ Solicitud de $'+r.d+' enviada a '+correo);renderRetiros();};elOPTS.appendChild(b);});}
 elRB.onclick=function(){renderRetiros();elMD.classList.add('show');};
 elCL.onclick=function(){elMD.classList.remove('show');};
 function actualizarTimer(){if(!al||!P||!P.alive){elTM.classList.remove('show','ok','danger');return;}var rest=TIEMPO_MIN-(performance.now()-tInicio);if(rest<=0){elTM.classList.add('show','ok');elTM.classList.remove('danger');elTM.textContent='✅ Asegurado';}else{elTM.classList.add('show');elTM.classList.remove('ok');var s=Math.ceil(rest/1000),m=Math.floor(s/60),seg=s%60;elTM.textContent='⏱ '+m+':'+(seg<10?'0':'')+seg;if(s<=30)elTM.classList.add('danger');else elTM.classList.remove('danger');}timerRAF=requestAnimationFrame(actualizarTimer);}
-function st2(n){ws=[];iF();P=mk({name:n||'Tú',isP:true,color:skin});P.x=rn(WD*.3,WD*.7);P.y=rn(WD*.3,WD*.7);for(var i=0;i<P.segs.length;i++){P.segs[i].x=P.x-Math.cos(P.angle)*i*SS;P.segs[i].y=P.y-Math.sin(P.angle)*i*SS;}ws.push(P);for(var j=0;j<BN;j++)ws.push(mk({}));cm.x=P.x;cm.y=P.y;cm.z=1;ms=0;elS.textContent=0;br();elQ.textContent=P.segs.length;al=true;elO.classList.add('hide');nomUser=n||'Tú';localStorage.setItem('gnombre',nomUser);registrarPresencia('jugando');tInicio=performance.now();cancelAnimationFrame(timerRAF);actualizarTimer();}
-function end(k){setTimeout(function(){cancelAnimationFrame(timerRAF);elTM.classList.remove('show','ok','danger');registrarPresencia('menu');var sobrevivio=(performance.now()-tInicio)>=TIEMPO_MIN,g=sobrevivio?ms:0;if(!sobrevivio&&ms>0)sh('💀 Moriste antes de 2 min: perdiste '+ms+' puntos');tp+=g;localStorage.setItem('gt',tp);elB.style.width=Math.min(100,tp/1000*100)+'%';elT.textContent=tp;var vl=(sobrevivio?'✅ Sobreviviste los 2 minutos.<br>':'❌ No llegaste a los 2 minutos.<br>')+(k?'Te mató <b>'+k.name+'</b> ('+k.score+' pts).':'Nadie te mató.');elO.innerHTML='<h1>'+(sobrevivio?'¡Asegurado!':'Fin')+'</h1><h2 style="color:'+(sobrevivio?'#4ade80':'#f87171')+'">'+(sobrevivio?'+':'')+g+' puntos</h2><p>'+vl+'<br>Total acumulado: <b>'+tp+'</b> pts</p><button class="btn" id="g2">Reintentar</button>';elO.classList.remove('hide');var g2=$('g2');if(g2)g2.onclick=function(){location.reload();};},250);}
+function st2(n){ws=[];iF();P=mk({name:n||'Tú',isP:true,color:skin});P.x=rn(WD*.3,WD*.7);P.y=rn(WD*.3,WD*.7);for(var i=0;i<P.segs.length;i++){P.segs[i].x=P.x-Math.cos(P.angle)*i*SS;P.segs[i].y=P.y-Math.sin(P.angle)*i*SS;}ws.push(P);for(var j=0;j<BN;j++)ws.push(mk({}));cm.x=P.x;cm.y=P.y;cm.z=1;ms=0;elS.textContent=0;br();elQ.textContent=P.segs.length;al=true;elO.classList.add('hide');tInicio=performance.now();cancelAnimationFrame(timerRAF);actualizarTimer();}
+function end(k){setTimeout(function(){cancelAnimationFrame(timerRAF);elTM.classList.remove('show','ok','danger');var sobrevivio=(performance.now()-tInicio)>=TIEMPO_MIN,g=sobrevivio?ms:0;if(!sobrevivio&&ms>0)sh('💀 Moriste antes de 2 min: perdiste '+ms+' puntos');tp+=g;localStorage.setItem('gt',tp);elB.style.width=Math.min(100,tp/1000*100)+'%';elT.textContent=tp;var vl=(sobrevivio?'✅ Sobreviviste los 2 minutos.<br>':'❌ No llegaste a los 2 minutos.<br>')+(k?'Te mató <b>'+k.name+'</b> ('+k.score+' pts).':'Nadie te mató.');elO.innerHTML='<h1>'+(sobrevivio?'¡Asegurado!':'Fin')+'</h1><h2 style="color:'+(sobrevivio?'#4ade80':'#f87171')+'">'+(sobrevivio?'+':'')+g+' puntos</h2><p>'+vl+'<br>Total acumulado: <b>'+tp+'</b> pts</p><button class="btn" id="g2">Reintentar</button>';elO.classList.remove('hide');var g2=$('g2');if(g2)g2.onclick=function(){location.reload();};},250);}
 elG.onclick=function(){st2(elN.value.trim()||'Tú');};
 elN.addEventListener('keydown',function(e){if(e.key==='Enter')elG.click();});
-// CONTROLES
 var ky={};
 addEventListener('keydown',function(e){ky[e.key.toLowerCase()]=1;if(['arrowup','arrowdown','arrowleft','arrowright',' '].indexOf(e.key.toLowerCase())>=0)e.preventDefault();});
 addEventListener('keyup',function(e){ky[e.key.toLowerCase()]=0;});
@@ -223,4 +171,7 @@ function inp(){if(!P||!P.alive)return;var de=null,kx=0,ky2=0;if(ky['arrowleft']|
 iF();requestAnimationFrame(lp);
 }catch(err){var box=document.getElementById('ERR');if(box){box.style.display='block';box.textContent='⚠️ Error: '+err.message+'\n\n'+(err.stack||'');}console.error(err);}
 });
-</script></body></html>
+</script>
+<!-- Adsterra Social Bar -->
+<script src="https://pl31631095.profitableratecpmnetwork.com/d9/00/ef/d900ef3945029dd5ac0d64a600897ea9.js"></script>
+</body></html>
